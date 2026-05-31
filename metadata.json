@@ -1,0 +1,6 @@
+{
+  "name": "Personal Marriage Profile",
+  "description": "An elegant, respectful, and sophisticated digital marriage profile storybook designed for families to view.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

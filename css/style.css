@@ -1,0 +1,803 @@
+/*
+ * -------------------------------------------------------------
+ * Premium Personal Marriage Profile Website - Style Sheet
+ * Theme: Natural Tones (Warm Linen, Earthy Taupe, Charcoal)
+ * Mobile First Booklet Architecture
+ * -------------------------------------------------------------
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;500;600&display=swap');
+
+:root {
+  /* Elegant Light Natural Tones Palette */
+  --color-bg-base: #fcfaf7;
+  --color-bg-dark: rgba(252, 250, 247, 0.98);
+  --color-gold: #5a4a3a;       /* Earthy Taupe */
+  --color-gold-hover: #3d3228; /* Deep Charcoal */
+  --color-gold-light: #eee7de; /* Warm Sand Cushion */
+  --color-gold-border: rgba(142, 130, 113, 0.28);
+  --color-ivory: #ffffff;
+  --color-text-primary: #3d3228;   /* Deep Warm Charcoal */
+  --color-text-secondary: #5a4a3a; /* Earthy Taupe */
+  --color-text-muted: #8e8271;     /* Soft sand grey label color */
+  
+  /* Fonts */
+  --font-serif: 'Playfair Display', serif;
+  --font-sans: 'Inter', sans-serif;
+  
+  /* Speeds */
+  --transition-speed: 1s;
+  --transition-ease: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Base resets */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-bg-base);
+  font-family: var(--font-sans);
+  color: var(--color-text-primary);
+  overflow: hidden;
+  user-select: none;
+}
+
+/* Make text copyable */
+.selectable {
+  user-select: text;
+}
+
+/* Preloader */
+#preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-bg-base);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 1s var(--transition-ease);
+}
+
+.preloader-emblem {
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  color: var(--color-gold-hover);
+  letter-spacing: 0.15em;
+  margin-bottom: 2rem;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: revealUp 1.2s var(--transition-ease) forwards;
+}
+
+.preloader-bar {
+  width: 140px;
+  height: 2px;
+  background-color: rgba(61, 50, 40, 0.08);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 1.2rem;
+}
+
+.preloader-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background-color: var(--color-gold);
+  animation: progressPulse 2.4s ease-in-out forwards;
+}
+
+.preloader-text {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+}
+
+/* App Viewport Container with elegant margins acting as a physical book edge */
+#viewport-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border: 0px solid #ffffff; /* Remove borders on mobile for true edge-to-edge layout space */
+  box-shadow: inset 0 0 100px rgba(61, 50, 40, 0.03);
+  box-sizing: border-box;
+}
+
+/* Section styling with smooth cinematic opacity transition */
+.section {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity var(--transition-speed) var(--transition-ease),
+              visibility var(--transition-speed) var(--transition-ease);
+  z-index: 10;
+}
+
+.section.active {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+  z-index: 20;
+}
+
+/* Blurred warm color aesthetic background backing elements */
+.section-bg {
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 120%;
+  height: 120%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: transform 6s cubic-bezier(0.25, 1, 0.4, 1);
+  transform: scale(1.08);
+  filter: blur(40px) brightness(1.2) opacity(0.25) sepia(12%);
+}
+
+.section.active .section-bg {
+  transform: scale(1.01);
+}
+
+.section-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(252, 250, 247, 0.7) 0%, rgba(246, 241, 234, 0.96) 100%);
+  z-index: 11;
+}
+
+/* Layout Grid inside story sections */
+.section-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0.5rem; /* Edge to edge design on phone margins */
+  padding-top: 0.5rem; /* Maximize space directly next to the screen cap */
+  padding-bottom: 1rem; /* Reserve bottom space so next/prev controls don't overlay the info */
+  display: flex;
+  align-items: flex-start; /* Align content to the top to fully utilize the upper space */
+  justify-content: center;
+  z-index: 12;
+  overflow: hidden;
+}
+
+/* -------------------------------------------------------------
+ * MOBILE-FIRST BOOKLET LAYOUT
+ * Perfectly optimized for vertical scrolling/touch screens
+ * -------------------------------------------------------------
+ */
+.mobile-booklet-layout {
+  width: 100%;
+  height: calc(100vh - 20px);
+  max-width: 680px;
+  max-height: calc(92vh - 20px); /* Maximize height on mobile and utilize upper space */
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid var(--color-gold-border);
+  border-radius: 8px;
+  box-shadow: 0 12px 35px rgba(90, 74, 58, 0.04);
+  overflow-y: auto;
+  scrollbar-width: none; /* Hide scrollbars */
+  display: flex;
+  flex-direction: column;
+  transition: opacity 1s var(--transition-ease), transform 1s var(--transition-ease);
+  transform: translateY(20px);
+  opacity: 0;
+}
+
+.mobile-booklet-layout::-webkit-scrollbar {
+  display: none;
+}
+
+.section.active .mobile-booklet-layout {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Image Frame: Beautiful Top Image concept inside the booklet */
+.booklet-image-frame {
+  position: relative;
+  width: 100%;
+  height: 48vh; /* Elegant dynamic fluid height optimized for all mobile screens */
+  min-height: 380px;
+  flex-shrink: 0;
+  overflow: hidden;
+  background-color: var(--color-gold-light);
+  border-bottom: 1px solid var(--color-gold-border);
+}
+
+/* Styled Arches matching 'Natural Tones' sophisticated curve accents */
+.booklet-image-frame.arch-top {
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.booklet-image-frame.arch-right {
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.booklet-img {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: top;
+  transition: transform 6s ease;
+  /* High fidelity premium render without muddying filters */
+  image-rendering: -webkit-optimize-contrast;
+}
+.booklet-img-about{
+  width: 100%;
+  height: 100%;
+  background-size:cover;
+  background-position: center;
+  transition: transform 6s ease;
+  image-rendering: -webkit-optimize-contrast;
+  transform: scale(1.2);
+}
+
+.section.active .booklet-img {
+  transform: scale(1.05);
+}
+
+/* Floating beautiful golden watermark logo */
+.portrait-watermark {
+  position: absolute;
+  bottom: 1rem;
+  right: 1.25rem;
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  color: rgba(255, 255, 255, 0.85);
+  font-style: italic;
+  letter-spacing: 0.05em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Text Container inside booklet */
+.booklet-text-frame {
+  padding: 1.75rem 1.5rem 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+/* Typographic Elements */
+.booklet-salutation {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.booklet-header-sub {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.booklet-name {
+  font-family: var(--font-serif);
+  font-size: clamp(1.8rem, 5vw, 2.4rem);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--color-text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.booklet-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.4rem, 4vw, 1.8rem);
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.booklet-subtitle {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  font-weight: 500;
+  color: var(--color-gold);
+  text-transform: uppercase;
+  margin-top: 0.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.booklet-separator {
+  width: 32px;
+  height: 2px;
+  background-color: var(--color-gold);
+  margin: 0.75rem 0 1rem 0;
+}
+
+/* Layout Key-Facts Taglist for Hero Section */
+.key-facts-pillbox {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.fact-tag {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary);
+  background: var(--color-gold-light);
+  padding: 0.35rem 0.85rem;
+  border-radius: 4px;
+}
+
+/* -------------------------------------------------------------
+ * SPECS DETAIL GRID
+ * Bulletproof mobile listings to replace long un-scannable paras
+ * -------------------------------------------------------------
+ */
+.specs-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  width: 100%;
+  margin-bottom: 1.25rem;
+}
+
+.spec-row {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(142, 130, 113, 0.12);
+  text-align: left;
+}
+
+.spec-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.spec-label {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  margin-bottom: 0.15rem;
+}
+
+.spec-val {
+  font-family: 'Crimson Pro', serif;
+  font-size: 0.98rem;
+  line-height: 1.45;
+  color: var(--color-text-primary);
+  font-style: italic;
+}
+
+/* Personality badge tags list */
+.pills-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.accent-badge {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--color-gold-hover);
+  border: 1px solid var(--color-gold-border);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  text-transform: uppercase;
+}
+
+.booklet-quote {
+  font-family: var(--font-serif);
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+  text-align: center;
+  margin-top: 1.2rem;
+  border-top: 1px dashed var(--color-gold-border);
+  padding-top: 0.8rem;
+}
+
+/* Luxury solid primary key-button design */
+.btn-gold {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1.8rem;
+  background-color: var(--color-text-primary);
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%; /* blocky and full-width on phone profiles */
+  margin-top: 1rem;
+  box-shadow: 0 4px 12px rgba(61, 50, 40, 0.12);
+}
+
+.btn-gold:hover {
+  background-color: var(--color-gold);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(61, 50, 40, 0.2);
+}
+
+.btn-gold:active {
+  transform: translateY(0);
+}
+
+.button-icon {
+  flex-shrink: 0;
+}
+
+/* -------------------------------------------------------------
+ * FIXED OVERLAY CONTROLS LAYER
+ * -------------------------------------------------------------
+ */
+.interface-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1500;
+}
+
+/* Header site emblem logo */
+.branding-header {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  pointer-events: auto;
+}
+
+.branding-logo {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--color-text-primary);
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--color-text-primary);
+  padding-bottom: 2px;
+}
+
+/* Booklet Navigation Vertical Dot Controls (Hidden on mobile) */
+.progress-dots {
+  position: absolute;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  pointer-events: auto;
+}
+
+.progress-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: rgba(61, 50, 40, 0.15);
+  border: none;
+  cursor: pointer;
+  transition: all 0.4s var(--transition-ease);
+}
+
+.progress-dot:hover {
+  background-color: rgba(61, 50, 40, 0.4);
+}
+
+.progress-dot.active {
+  background-color: var(--color-text-primary);
+  transform: scale(1.6);
+}
+
+/* Main action footer controls */
+.footer-controls {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: auto;
+}
+
+.page-counter {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  color: var(--color-text-secondary);
+}
+
+.page-counter-accent {
+  color: var(--color-text-primary);
+  font-weight: 700;
+  margin-right: 0.15rem;
+}
+
+/* Booklet Arrow Controls circular styling */
+.scroller-nav-buttons {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.nav-arrow-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(142, 130, 113, 0.25);
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+}
+
+.nav-arrow-btn:hover {
+  background-color: var(--color-gold-light);
+  border-color: var(--color-text-primary);
+  color: var(--color-text-primary);
+}
+
+.nav-arrow-btn:disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* User help hints cue */
+.action-instructions {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  pointer-events: none;
+  opacity: 0.8;
+  display: none; /* Hide on small screen overlays for premium minimal breathing layout */
+}
+
+/* Keyframes animations */
+@keyframes revealUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes progressPulse {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+/* -------------------------------------------------------------
+ * LARGE DEVICE EXPANDED bento-booklet style
+ * -------------------------------------------------------------
+ */
+@media (min-width: 820px) {
+  #viewport-container {
+    border: 30px solid #ffffff; /* physical margins as real printed book */
+  }
+
+  .section-content {
+    padding: 3rem;
+  }
+
+  .mobile-booklet-layout {
+    max-width: 900px;
+    height: 520px;
+    flex-direction: row; /* Horizontal booklet style for landscape PC screens */
+    border-radius: 6px;
+    box-shadow: 0 25px 60px rgba(90, 74, 58, 0.06);
+  }
+
+  .booklet-image-frame {
+    width: 44%;
+    height: 100%;
+    border-bottom: none;
+    border-right: 1px solid var(--color-gold-border);
+  }
+
+  .booklet-image-frame.arch-top {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border-top-right-radius: 0;
+  }
+
+  .booklet-image-frame.arch-right {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border-top-right-radius: 0;
+    border-top-right-radius: 200px; /* Gorgeous organic curve when looking on computer */
+  }
+
+  .booklet-text-frame {
+    width: 56%;
+    padding: 3.5rem 3rem;
+    justify-content: center;
+  }
+
+  .action-instructions {
+    display: block; /* Show visual hint guide on computer browser */
+  }
+
+  .branding-header {
+    top: 2.5rem;
+    left: 2.5rem;
+  }
+
+  .progress-dots {
+    right: 2.5rem;
+  }
+
+  .footer-controls {
+    bottom: 2.5rem;
+    left: 2.5rem;
+    right: 2.5rem;
+  }
+
+  .btn-gold {
+    width: fit-content; /* content sized button on PC */
+    padding: 0.85rem 2.2rem;
+  }
+}
+
+/* Touch Assist area overlays */
+.swipe-overlay-zone {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+}
+
+/* Print Setup */
+#biodata-print-container {
+  display: none;
+}
+
+@media print {
+  body, html, #viewport-container, .interface-overlay, .section {
+    display: none !important;
+    background: transparent !important;
+    color: #1a1a1a !important;
+  }
+  
+  #biodata-print-container {
+    display: block !important;
+    font-family: 'Inter', sans-serif;
+    color: #3d3228;
+    background: #ffffff;
+    padding: 3rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .print-header {
+    text-align: center;
+    border-bottom: 2px solid #5a4a3a;
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .print-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: normal;
+  }
+  
+  .print-subtitle {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #5a4a3a;
+  }
+  
+  .print-section {
+    margin-bottom: 2rem;
+    page-break-inside: avoid;
+  }
+  
+  .print-section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    border-bottom: 1px solid #ddd;
+    color: #5a4a3a;
+    padding-bottom: 0.4rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .print-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem 2rem;
+  }
+  
+  .print-item {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  
+  .print-label {
+    font-weight: 600;
+    color: #5a4a3a;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.15rem;
+  }
+  
+  .print-value {
+    color: #3d3228;
+  }
+}
