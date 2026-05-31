@@ -178,41 +178,27 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { passive: true });
 
   function handleSwipeGestures() {
-    const diffX = state.touchEndX - state.touchStartX;
-    const diffY = state.touchEndY - state.touchStartY;
+  const diffX = state.touchEndX - state.touchStartX;
+  const diffY = state.touchEndY - state.touchStartY;
 
-    // Check if horizontal swipe holds more magnitude
-    if (Math.abs(diffX) > Math.abs(diffY)) {
-      if (Math.abs(diffX) > state.swipeThreshold) {
-        if (diffX < 0) {
-          // Swipe Left -> Next Section
-          if (state.currentSection < state.totalSections - 1) {
-            navigateToSection(state.currentSection + 1);
-          }
-        } else {
-          // Swipe Right -> Previous Section
-          if (state.currentSection > 0) {
-            navigateToSection(state.currentSection - 1);
-          }
-        }
+  // Only respond to horizontal swipes
+  if (
+    Math.abs(diffX) > state.swipeThreshold &&
+    Math.abs(diffX) > Math.abs(diffY)
+  ) {
+    if (diffX < 0) {
+      // Swipe Left -> Next Section
+      if (state.currentSection < state.totalSections - 1) {
+        navigateToSection(state.currentSection + 1);
       }
     } else {
-      // Vertical swipe holds more magnitude
-      if (Math.abs(diffY) > state.swipeThreshold) {
-        if (diffY < 0) {
-          // Swipe Up -> Next Section
-          if (state.currentSection < state.totalSections - 1) {
-            navigateToSection(state.currentSection + 1);
-          }
-        } else {
-          // Swipe Down -> Prev Section
-          if (state.currentSection > 0) {
-            navigateToSection(state.currentSection - 1);
-          }
-        }
+      // Swipe Right -> Previous Section
+      if (state.currentSection > 0) {
+        navigateToSection(state.currentSection - 1);
       }
     }
   }
+}
 
   // Print & Download Biodata Handler using elegant Native Print Interface
   if (downloadBtn) {
