@@ -177,28 +177,28 @@ document.addEventListener('DOMContentLoaded', () => {
     handleSwipeGestures();
   }, { passive: true });
 
-  function handleSwipeGestures() {
-  const diffX = state.touchEndX - state.touchStartX;
-  const diffY = state.touchEndY - state.touchStartY;
+// function handleSwipeGestures() {
+//   const diffX = state.touchEndX - state.touchStartX;
+//   const diffY = state.touchEndY - state.touchStartY;
 
-  // Only respond to horizontal swipes
-  if (
-    Math.abs(diffX) > state.swipeThreshold &&
-    Math.abs(diffX) > Math.abs(diffY)
-  ) {
-    if (diffX < 0) {
-      // Swipe Left -> Next Section
-      if (state.currentSection < state.totalSections - 1) {
-        navigateToSection(state.currentSection + 1);
-      }
-    } else {
-      // Swipe Right -> Previous Section
-      if (state.currentSection > 0) {
-        navigateToSection(state.currentSection - 1);
-      }
-    }
-  }
-}
+//   // Only respond to horizontal swipes
+//   if (
+//     Math.abs(diffX) > state.swipeThreshold &&
+//     Math.abs(diffX) > Math.abs(diffY)
+//   ) {
+//     if (diffX < 0) {
+//       // Swipe Left -> Next Section
+//       if (state.currentSection < state.totalSections - 1) {
+//         navigateToSection(state.currentSection + 1);
+//       }
+//     } else {
+//       // Swipe Right -> Previous Section
+//       if (state.currentSection > 0) {
+//         navigateToSection(state.currentSection - 1);
+//       }
+//     }
+//   }
+// }
 
   // Print & Download Biodata Handler using elegant Native Print Interface
   if (downloadBtn) {
